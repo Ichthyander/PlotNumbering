@@ -11,9 +11,17 @@ namespace PlotNumbering
     {
         public DelegateCommand SetPlotNumbersCommand { get; }
 
+        public String NumberingPrefix { get; set; } //Currently useless. Need an implementation
+        public String StartNumber { get; set; }
+        public String Step { get; set; }
+        public String SelectedDrawingType { get; set; }
+
         public MainViewViewModel()
         {
             SetPlotNumbersCommand = new DelegateCommand(OnSetPlotNumbersCommand);
+            NumberingPrefix = "";
+            StartNumber = "1";
+            Step = "1";
         }
 
         private void OnSetPlotNumbersCommand()
@@ -27,36 +35,21 @@ namespace PlotNumbering
                 return;
             }
 
-            ////Get model info and send a "Hello World" message to the message box
-            //ModelInfo modelInfo = model.GetInfo();
-            //string name = modelInfo.ModelName;
-
-            //MessageBox.Show(string.Format("Hello! Your current model name is {0}", name));
-
-            ////Send a hello world message to Tekla Structures user command prompt
-            //Operation.DisplayPrompt(string.Format("Hello! Your current model name is {0}", name));
-
-            DrawingHandler drawingHandler = new DrawingHandler();
-            DrawingEnumerator drawingEnumerator = drawingHandler.GetDrawings();
-            List<Drawing> assemblyDrawings = new List<Drawing>();
-
-            foreach (Drawing drawing in drawingEnumerator)
-            {
-                if (drawing is AssemblyDrawing)
-                    assemblyDrawings.Add(drawing);
-            }
+            List<Drawing> selectedDrawings = SelectionUtils.GetDrawingsList(SelectedDrawingType);
 
             DrawingComparer drawingComparer = new DrawingComparer();
-            assemblyDrawings.Sort(drawingComparer);
+            selectedDrawings.Sort(drawingComparer);
 
-            int i = 101;
-            foreach (Drawing assemblyDrawing in assemblyDrawings)
+            int i = Convert.ToInt32(StartNumber);
+            foreach (Drawing drawing in selectedDrawings)
             {
                 string number = Convert.ToString(i);
-                assemblyDrawing.SetUserProperty("ru_list", number);
-                i++;
-                assemblyDrawing.CommitChanges();
+                drawing.SetUserProperty("ru_list", number);
+                i+= Convert.ToInt32(Step);
+                drawing.CommitChanges();
             }
+
+            //Need to figure out how to implement Transactions with Tekla API
 
             //foreach (Drawing assemblyDrawing in assemblyDrawings)
             //{

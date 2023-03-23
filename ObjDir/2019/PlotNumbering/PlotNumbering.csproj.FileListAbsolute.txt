@@ -36,3 +36,4 @@ C:\Users\Фуфелшмерц\Desktop\Hackermann\Tekla\Нумератор лис
 C:\Users\Фуфелшмерц\Desktop\Hackermann\Tekla\Нумератор листов\PlotNumbering\bin\Release\Prism.Wpf.xml
 C:\Users\Фуфелшмерц\Desktop\Hackermann\Tekla\Нумератор листов\PlotNumbering\bin\Release\Tekla.Structures.dll
 C:\Users\Фуфелшмерц\Desktop\Hackermann\Tekla\Нумератор листов\PlotNumbering\bin\Release\Akit5.dll
+C:\Users\Фуфелшмерц\Desktop\Hackermann\Tekla\Нумератор листов\PlotNumbering\ObjDir\2019\PlotNumbering\PlotNumbering.csproj.AssemblyReference.cache
