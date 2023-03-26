@@ -9,11 +9,9 @@ namespace PlotNumbering
 {
     public class SelectionUtils
     {
-        public static List<Drawing> GetDrawingsList(String drawingType)
+        public static List<Drawing> GetDrawingsList(String drawingType, DrawingEnumerator drawingEnumerator)
         {
-            DrawingHandler drawingHandler = new DrawingHandler();
-            DrawingEnumerator drawingEnumerator = drawingHandler.GetDrawings();
-            List<Drawing> drawingsList = new List<Drawing>();
+            List<Drawing> drawingsList = new List<Drawing>() { };
 
             if (drawingType == "Сборочные чертежи")
             {

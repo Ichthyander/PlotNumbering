@@ -28,7 +28,7 @@
 
             <ComboBox Grid.Row="0" Grid.Column="1" SelectedValue="{Binding SelectedDrawingType}">
                 <ComboBoxItem Content="Сборочные чертежи"/>
-                <ComboBoxItem Content="Отправочные марки" IsSelected="True"/>
+                <ComboBoxItem Content="Отправочные марки"/>
                 <ComboBoxItem Content="Отдельные детали"/>
             </ComboBox>
 

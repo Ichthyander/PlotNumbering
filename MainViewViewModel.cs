@@ -7,7 +7,7 @@ using Tekla.Structures.Drawing;
 
 namespace PlotNumbering
 {
-    class MainViewViewModel
+    public class MainViewViewModel
     {
         public DelegateCommand SetPlotNumbersCommand { get; }
 
@@ -22,12 +22,14 @@ namespace PlotNumbering
             NumberingPrefix = "";
             StartNumber = "1";
             Step = "1";
+            //отладка
+            SelectedDrawingType = "Сборочные чертежи";
+            //отладка
         }
 
         private void OnSetPlotNumbersCommand()
         {
             //Create a model instance and check connection status
-
             Model model = new Model();
             if (!model.GetConnectionStatus())
             {
@@ -35,7 +37,9 @@ namespace PlotNumbering
                 return;
             }
 
-            List<Drawing> selectedDrawings = SelectionUtils.GetDrawingsList(SelectedDrawingType);
+            DrawingHandler drawingHandler = new DrawingHandler();
+            DrawingEnumerator drawingEnumerator = drawingHandler.GetDrawings();
+            List<Drawing> selectedDrawings = SelectionUtils.GetDrawingsList(SelectedDrawingType, drawingEnumerator);
 
             DrawingComparer drawingComparer = new DrawingComparer();
             selectedDrawings.Sort(drawingComparer);
@@ -49,12 +53,8 @@ namespace PlotNumbering
                 drawing.CommitChanges();
             }
 
-            //Need to figure out how to implement Transactions with Tekla API
-
-            //foreach (Drawing assemblyDrawing in assemblyDrawings)
-            //{
-            //    assemblyDrawing.CommitChanges();
-            //}
+            String message = "Нумерация " + SelectedDrawingType;
+            model.CommitChanges(message);
         }
 
         public event EventHandler CloseRequest;
