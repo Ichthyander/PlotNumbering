@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Windows;
 using Tekla.Structures.Model;
 using Tekla.Structures.Drawing;
+using System.Windows.Controls;
 
 namespace PlotNumbering
 {
@@ -14,7 +15,7 @@ namespace PlotNumbering
         public String NumberingPrefix { get; set; } //Currently useless. Need an implementation
         public String StartNumber { get; set; }
         public String Step { get; set; }
-        public String SelectedDrawingType { get; set; }
+        public ComboBoxItem SelectedDrawingType { get; set; }
 
         public MainViewViewModel()
         {
@@ -23,13 +24,13 @@ namespace PlotNumbering
             StartNumber = "1";
             Step = "1";
             //отладка
-            SelectedDrawingType = "Сборочные чертежи";
+            //SelectedDrawingType = "Сборочные чертежи";
             //отладка
         }
 
         private void OnSetPlotNumbersCommand()
         {
-            //Create a model instance and check connection status
+            //Creating a model instance and check connection status
             Model model = new Model();
             if (!model.GetConnectionStatus())
             {
@@ -39,7 +40,8 @@ namespace PlotNumbering
 
             DrawingHandler drawingHandler = new DrawingHandler();
             DrawingEnumerator drawingEnumerator = drawingHandler.GetDrawings();
-            List<Drawing> selectedDrawings = SelectionUtils.GetDrawingsList(SelectedDrawingType, drawingEnumerator);
+            //Need to get exception handler on empty input, or exclude possibility of empty object. 
+            List<Drawing> selectedDrawings = SelectionUtils.GetDrawingsList((String)SelectedDrawingType.Content, drawingEnumerator);
 
             DrawingComparer drawingComparer = new DrawingComparer();
             selectedDrawings.Sort(drawingComparer);
@@ -49,12 +51,15 @@ namespace PlotNumbering
             {
                 string number = Convert.ToString(i);
                 drawing.SetUserProperty("ru_list", number);
-                i+= Convert.ToInt32(Step);
+                i += Convert.ToInt32(Step);
                 drawing.CommitChanges();
             }
 
             String message = "Нумерация " + SelectedDrawingType;
             model.CommitChanges(message);
+
+            //MessageBox.Show((String)SelectedDrawingType.Content);
+            //return;
         }
 
         public event EventHandler CloseRequest;
