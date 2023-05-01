@@ -44,5 +44,13 @@
                 Command="{Binding SetPlotNumbersCommand}"
                 Margin="5"
                 Padding="5"/>
+
+        <Grid>
+            <ProgressBar Height="30" Minimum="0" Value="{Binding ProgressBarValue}" Maximum="{Binding ProgressBarMax}"/>
+            <TextBlock Text="{Binding ProgressBarText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+
+        <TextBlock Text="{Binding TestOutput}"/>
+
     </StackPanel>
 </Window>

@@ -17,15 +17,27 @@ namespace PlotNumbering
         public String Step { get; set; }
         public ComboBoxItem SelectedDrawingType { get; set; }
 
+        //Progress Bar variables
+        public int ProgressBarValue { get; set; }
+        public int ProgressBarMax { get; set; }
+        public String ProgressBarText { get; set; }
+
+        //Testing purposes
+        public String TestOutput { get; set; }
+
         public MainViewViewModel()
         {
             SetPlotNumbersCommand = new DelegateCommand(OnSetPlotNumbersCommand);
             NumberingPrefix = "";
             StartNumber = "1";
             Step = "1";
+            TestOutput = String.Empty;
             //отладка
             //SelectedDrawingType = "Сборочные чертежи";
             //отладка
+            ProgressBarValue = 0;
+            ProgressBarMax = 0;
+            ProgressBarText = "0/0";
         }
 
         private void OnSetPlotNumbersCommand()
@@ -43,12 +55,31 @@ namespace PlotNumbering
             //Need to get exception handler on empty input, or exclude possibility of empty object. 
             List<Drawing> selectedDrawings = SelectionUtils.GetDrawingsList((String)SelectedDrawingType.Content, drawingEnumerator);
 
+            ////TEST
+            //string test = "";
+
+            //foreach (Drawing drawing in selectedDrawings)
+            //{
+            //    test += drawing.Mark + "\n";
+            //}
+
+            //TestOutput = test;
+
+            //MessageBox.Show(selectedDrawings[0].Mark.Substring(1, selectedDrawings[0].Mark.Length - 2));
+            ////TEST
+
             DrawingComparer drawingComparer = new DrawingComparer();
             selectedDrawings.Sort(drawingComparer);
+
+            ProgressBarMax = selectedDrawings.Count;
 
             int i = Convert.ToInt32(StartNumber);
             foreach (Drawing drawing in selectedDrawings)
             {
+                //ProgressBar count
+                ++ProgressBarValue;
+                ProgressBarText = String.Format("{0}/{1} чертежей пронумеровано", ProgressBarValue, ProgressBarMax);
+
                 string number = Convert.ToString(i);
                 drawing.SetUserProperty("ru_list", number);
                 i += Convert.ToInt32(Step);
@@ -74,7 +105,10 @@ namespace PlotNumbering
     {
         public int Compare(Drawing d1, Drawing d2)
         {
-            return String.Compare(d1.Mark, d2.Mark);
+            //return String.Compare(d1.Mark, d2.Mark);
+            int x = Convert.ToInt32(d1.Mark.Substring(1, d1.Mark.Length - 2));
+            int y = Convert.ToInt32(d2.Mark.Substring(1, d2.Mark.Length - 2));
+            return x - y;
         }
     }
 
