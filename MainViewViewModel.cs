@@ -5,10 +5,12 @@ using System.Windows;
 using Tekla.Structures.Model;
 using Tekla.Structures.Drawing;
 using System.Windows.Controls;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace PlotNumbering
 {
-    public class MainViewViewModel
+    public class MainViewViewModel : INotifyPropertyChanged
     {
         public DelegateCommand SetPlotNumbersCommand { get; }
 
@@ -18,9 +20,38 @@ namespace PlotNumbering
         public ComboBoxItem SelectedDrawingType { get; set; }
 
         //Progress Bar variables
-        public int ProgressBarValue { get; set; }
-        public int ProgressBarMax { get; set; }
-        public String ProgressBarText { get; set; }
+        int progressBarValue;
+        public int ProgressBarValue
+        {
+            get { return progressBarValue; }
+            set
+            {
+                progressBarValue = value;
+                OnPropertyChanged();
+            }
+        }
+
+        int progressBarMax;
+        public int ProgressBarMax
+        {
+            get { return progressBarMax; }
+            set
+            {
+                progressBarMax = value;
+                OnPropertyChanged();
+            }
+        }
+
+        String progressBarText;
+        public String ProgressBarText
+        {
+            get { return progressBarText; }
+            set
+            {
+                progressBarText = value;
+                OnPropertyChanged();
+            }
+        }
 
         //Testing purposes
         public String TestOutput { get; set; }
@@ -99,6 +130,15 @@ namespace PlotNumbering
         {
             CloseRequest?.Invoke(this, EventArgs.Empty);
         }
+
+        //testing
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        //end of the test
     }
 
     class DrawingComparer : IComparer<Drawing>

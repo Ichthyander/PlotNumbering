@@ -13,6 +13,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.1*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
@@ -22,18 +23,20 @@
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0" Grid.Column="0" Content="Выберите группу листов для нумерации"/>
-            <Label Grid.Row="1" Grid.Column="0" Content="Префикс номера"/>
-            <Label Grid.Row="2" Grid.Column="0" Content="Начальный номер"/>
-            <Label Grid.Row="3" Grid.Column="0" Content="Шаг нумерации"/>
-
             <ComboBox Grid.Row="0" Grid.Column="1" SelectedValue="{Binding SelectedDrawingType}">
                 <ComboBoxItem Content="Сборочные чертежи"/>
                 <ComboBoxItem Content="Отправочные марки"/>
                 <ComboBoxItem Content="Отдельные детали"/>
             </ComboBox>
-
+            <Expander Grid.Row="0" Grid.Column="2" ExpandDirection="Right" Grid.RowSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            
+            <Label Grid.Row="1" Grid.Column="0" Content="Префикс номера"/>
             <TextBox Text="{Binding NumberingPrefix}" Grid.Row="1" Grid.Column="1" Margin="3"/>
+            
+            <Label Grid.Row="2" Grid.Column="0" Content="Начальный номер"/>
             <TextBox Text="{Binding StartNumber}" Grid.Row="2" Grid.Column="1" Margin="3"/>
+
+            <Label Grid.Row="3" Grid.Column="0" Content="Шаг нумерации"/>
             <TextBox Text="{Binding Step}" Grid.Row="3" Grid.Column="1" Margin="3"/>
 
         </Grid>
@@ -47,7 +50,7 @@
 
         <Grid>
             <ProgressBar Height="30" Minimum="0" Value="{Binding ProgressBarValue}" Maximum="{Binding ProgressBarMax}"/>
-            <TextBlock Text="{Binding ProgressBarText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding ProgressBarText, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
 
         <TextBlock Text="{Binding TestOutput}"/>
