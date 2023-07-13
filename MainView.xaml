@@ -13,7 +13,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
@@ -28,8 +28,14 @@
                 <ComboBoxItem Content="Отправочные марки"/>
                 <ComboBoxItem Content="Отдельные детали"/>
             </ComboBox>
-            <Expander Grid.Row="0" Grid.Column="2" ExpandDirection="Right" Grid.RowSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            
+            <Expander Grid.Row="0" Grid.Column="2" ExpandDirection="Right" Grid.RowSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <TextBlock>
+                        "Заглушка для списка чертежей"
+                    </TextBlock>
+                </ScrollViewer>
+            </Expander>
+
             <Label Grid.Row="1" Grid.Column="0" Content="Префикс номера"/>
             <TextBox Text="{Binding NumberingPrefix}" Grid.Row="1" Grid.Column="1" Margin="3"/>
             
